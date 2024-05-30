@@ -20,7 +20,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 </script>
 
 <template>
-    <GuestLayout>
+    <GuestLayout class="bg-gray-700">
 
         <Head title="Email Verification" />
 

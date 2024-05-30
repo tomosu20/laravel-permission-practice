@@ -21,7 +21,7 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <GuestLayout class="bg-gray-700">
 
         <Head title="Register" />
 
