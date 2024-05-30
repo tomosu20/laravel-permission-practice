@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Admin\Auth\EmailVerificationNotificationController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredAdminController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 
 use Inertia\Inertia;
@@ -68,5 +70,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
             ->name('logout');
+
+        Route::resource('admin', AdminController::class);
+        // Route::get('/', AdminController::class, 'index')->name('index');
+        // Route::get('/{admin}', AdminController::class, 'show')->name('show');
+
+        Route::get('role', [RoleController::class, 'index'])->name('role.index');
+        Route::get('role/{role}', [RoleController::class, 'show'])->name('role.show');
     });
 });
