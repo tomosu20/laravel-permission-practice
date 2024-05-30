@@ -23,8 +23,8 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+    form.post(route('admin.login'), {
+        onFinish: () => form.route('admin.password'),
     });
 };
 </script>
@@ -32,13 +32,13 @@ const submit = () => {
 <template>
     <GuestLayout>
 
-        <Head title="Log in" />
+        <Head title="Admin Log in" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
 
-        <h1>user login</h1>
+        <h1>admin login</h1>
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="Email" />
@@ -66,7 +66,7 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')"
+                <Link v-if="canResetPassword" :href="route('admin.password.request')"
                     class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Forgot your password?
                 </Link>
