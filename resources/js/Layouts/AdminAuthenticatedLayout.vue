@@ -32,6 +32,11 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink :href="route('admin.admin.index')" :active="route().current('admin.admin.*')">
+                                    Admin User
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('admin.role.index')" :active="route().current('admin.role.*')">
                                     Role & Permission
                                 </NavLink>

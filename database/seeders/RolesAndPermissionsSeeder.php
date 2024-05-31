@@ -16,6 +16,7 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         $team1 = Role::create(['name' => 'team1', 'guard_name' => 'admin']);
         $team2 = Role::create(['name' => 'team2', 'guard_name' => 'admin']);
+        Role::create(['name' => 'team3']);
 
         $permissionOfCompany = Permission::create(['name' => 'company', 'guard_name' => 'admin']);
         Permission::create(['name' => 'user', 'guard_name' => 'admin']);
@@ -25,7 +26,8 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'facility', 'guard_name' => 'admin']);
         Permission::create(['name' => 'domain', 'guard_name' => 'admin']);
         $permissionOfSystem = Permission::create(['name' => 'system', 'guard_name' => 'admin']);
-        $permissionOfMoney = Permission::create(['name' => 'money']);
+
+        Permission::create(['name' => 'money']);
 
         $team1->givePermissionTo($permissionOfSystem);
         $team1->givePermissionTo($permissionOfCompany);

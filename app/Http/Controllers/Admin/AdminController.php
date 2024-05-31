@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminUpdateRequest;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -44,8 +46,18 @@ class AdminController extends Controller
      */
     public function show(Admin $admin)
     {
+        $roles = Role::where('guard_name', 'admin')->get();
+
+        $adminHasRole = $admin->getRoleNames()[0]; //TODO:roleの任意対応
+        $role = $roles->filter(function ($value) use ($adminHasRole) {
+            return $value->name === $adminHasRole;
+        })->values()[0];
+
         return Inertia::render('Admin/Admin/Show', [
             'admin' => $admin,
+            'role' => $role->name,
+            'permissions' => $role->getPermissionNames(),
+            'selectRoles' => $roles,
         ]);
     }
 
@@ -60,9 +72,15 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Admin $admin)
+    public function update(AdminUpdateRequest $request, Admin $admin)
     {
-        //
+        $admin->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        $admin->syncRoles($request->role);
+        return to_route('admin.admin.index');
     }
 
     /**
