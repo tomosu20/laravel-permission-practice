@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::middleware('guest')->group(function () {
+    Route::middleware('guest:admin')->group(function () {
         Route::get('register', [RegisteredAdminController::class, 'create'])
             ->name('register');
 
