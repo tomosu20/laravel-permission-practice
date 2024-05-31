@@ -31,3 +31,11 @@ sail php artisan serve
 sail npm install
 sail npm run dev
 ```
+
+## Seedingしている初期ログイン情報
+
+http://localhost/admin/login
+
+| Email  |  Password |
+|---|---|
+| admin@example.com  |  password |
