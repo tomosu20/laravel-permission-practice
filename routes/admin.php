@@ -72,10 +72,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->name('logout');
 
         Route::resource('admin', AdminController::class);
-        // Route::get('/', AdminController::class, 'index')->name('index');
-        // Route::get('/{admin}', AdminController::class, 'show')->name('show');
-
-        Route::get('role', [RoleController::class, 'index'])->name('role.index');
-        Route::get('role/{role}', [RoleController::class, 'show'])->name('role.show');
+        Route::resource('role', RoleController::class);
     });
 });

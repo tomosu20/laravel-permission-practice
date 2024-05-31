@@ -14,14 +14,21 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'admin']);
-        $editorRole = Role::create(['name' => 'editor', 'guard_name' => 'admin']);
+        $team1 = Role::create(['name' => 'team1', 'guard_name' => 'admin']);
+        $team2 = Role::create(['name' => 'team2', 'guard_name' => 'admin']);
 
-        $permissionOfEditProfile = Permission::create(['name' => 'edit profile', 'guard_name' => 'admin']);
-        $permissionOfDeleteProfile = Permission::create(['name' => 'delete profile', 'guard_name' => 'admin']);
+        $permissionOfCompany = Permission::create(['name' => 'company', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'user', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'money', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'mail_delivery', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'notification', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'facility', 'guard_name' => 'admin']);
+        Permission::create(['name' => 'domain', 'guard_name' => 'admin']);
+        $permissionOfSystem = Permission::create(['name' => 'system', 'guard_name' => 'admin']);
+        $permissionOfMoney = Permission::create(['name' => 'money']);
 
-        $adminRole->givePermissionTo($permissionOfEditProfile);
-        $adminRole->givePermissionTo($permissionOfDeleteProfile);
-        $editorRole->givePermissionTo($permissionOfEditProfile);
+        $team1->givePermissionTo($permissionOfSystem);
+        $team1->givePermissionTo($permissionOfCompany);
+        $team2->givePermissionTo($permissionOfSystem);
     }
 }
