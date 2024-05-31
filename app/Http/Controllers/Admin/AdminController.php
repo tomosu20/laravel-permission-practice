@@ -47,16 +47,26 @@ class AdminController extends Controller
     public function show(Admin $admin)
     {
         $roles = Role::where('guard_name', 'admin')->get();
+        $adminHasRoleNames = $admin->getRoleNames();
 
-        $adminHasRole = $admin->getRoleNames()[0]; //TODO:roleの任意対応
-        $role = $roles->filter(function ($value) use ($adminHasRole) {
-            return $value->name === $adminHasRole;
-        })->values()[0];
+        $adminHasRoleName = '';
+        $adminHasPermissionNames = [];
+
+        if (count($adminHasRoleNames) > 0) {
+            $adminHasRole = $adminHasRoleNames[0];
+
+            $role = $roles->filter(function ($value) use ($adminHasRole) {
+                return $value->name === $adminHasRole;
+            })->values()[0];
+
+            $adminHasRoleName = $role->name;
+            $adminHasPermissionNames = $role->getPermissionNames();
+        }
 
         return Inertia::render('Admin/Admin/Show', [
             'admin' => $admin,
-            'role' => $role->name,
-            'permissions' => $role->getPermissionNames(),
+            'role' => $adminHasRoleName,
+            'permissions' => $adminHasPermissionNames,
             'selectRoles' => $roles,
         ]);
     }
