@@ -71,7 +71,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
             ->name('logout');
 
-        Route::resource('admin', AdminController::class);
+        Route::middleware(["permission:system"])->group(function () {
+            Route::resource('admin', AdminController::class);
+        });
         Route::resource('role', RoleController::class);
     });
 });
