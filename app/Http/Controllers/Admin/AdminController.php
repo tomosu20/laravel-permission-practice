@@ -49,7 +49,7 @@ class AdminController extends Controller
         $roles = Role::where('guard_name', 'admin')->get();
         $adminHasRoleNames = $admin->getRoleNames();
 
-        $adminHasRoleName = '';
+        $role = '';
         $adminHasPermissionNames = [];
 
         if (count($adminHasRoleNames) > 0) {
@@ -59,13 +59,12 @@ class AdminController extends Controller
                 return $value->name === $adminHasRole;
             })->values()[0];
 
-            $adminHasRoleName = $role->name;
             $adminHasPermissionNames = $role->getPermissionNames();
         }
 
         return Inertia::render('Admin/Admin/Show', [
             'admin' => $admin,
-            'role' => $adminHasRoleName,
+            'role' => $role,
             'permissions' => $adminHasPermissionNames,
             'selectRoles' => $roles,
         ]);
@@ -89,7 +88,9 @@ class AdminController extends Controller
             'email' => $request->email,
         ]);
 
-        $admin->syncRoles($request->role);
+        $role = Role::findById($request->roleId);
+        $admin->syncRoles($role);
+
         return to_route('admin.admin.index');
     }
 

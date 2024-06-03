@@ -7,18 +7,16 @@ import { Head, Link, router, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
     admin: Object,
-    role: String,
+    role: Object,
     selectRoles: Array,
     permissions: Array,
 });
-
-console.log(props.permissions);
 
 const form = useForm({
     id: props.admin.id,
     name: props.admin.name,
     email: props.admin.email,
-    role: props.role,
+    roleId: props.role.id,
 });
 
 const updateAdmin = id => {
@@ -67,10 +65,10 @@ const updateAdmin = id => {
                                         <div class="p-2">
                                             <InputLabel value="Team" />
                                             <div class="relative">
-                                                <select id="team" name="team" v-model="form.role"
+                                                <select id="team" name="team" v-model="form.roleId"
                                                     class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                                    <option v-for="selectRole in props.selectRoles"
-                                                        :value="selectRole.name">
+                                                    <option v-for="selectRole in props.selectRoles" :key="selectRole.id"
+                                                        :value="selectRole.id">
                                                         {{ selectRole.name }}
                                                     </option>
                                                 </select>
@@ -83,9 +81,9 @@ const updateAdmin = id => {
                                                 <div class="ml-6">
                                                     <ul>
                                                         <!-- //TODO: プルダウンを変更したら権限の表示も変えたい -->
-                                                        <li type="disc" v-for="permission in props.permissions">{{
-                                                            permission
-                                                            }}</li>
+                                                        <li type="disc" v-for="permission in props.permissions">
+                                                            {{ permission }}
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </div>
