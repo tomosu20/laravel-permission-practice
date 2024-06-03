@@ -105,4 +105,16 @@ class RoleController extends Controller
     {
         //
     }
+
+    public function getOwnPermissionNames(Role $role)
+    {
+        // $permissions = $role->getPermissionNames();
+        // $responseBody = json_encode($permissions);
+        // $response->getBody();
+
+
+        return response()->json([
+            $role->getPermissionNames()
+        ]);
+    }
 }

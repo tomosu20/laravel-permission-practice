@@ -74,6 +74,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::middleware(["permission:system"])->group(function () {
             Route::resource('admin', AdminController::class);
         });
+
         Route::resource('role', RoleController::class);
+        Route::get('role/{role}/permissions', [RoleController::class, 'getOwnPermissionNames'])->name('role.permissions');
     });
 });

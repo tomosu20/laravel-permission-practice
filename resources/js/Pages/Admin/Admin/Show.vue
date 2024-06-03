@@ -4,6 +4,8 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AdminAuthenticatedLayout.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import axios from 'axios';
+import { reactive } from 'vue';
 
 const props = defineProps({
     admin: Object,
@@ -21,6 +23,20 @@ const form = useForm({
 
 const updateAdmin = id => {
     router.put(route('admin.admin.update', { admin: id }), form);
+}
+
+const updatedPermissions = reactive({});
+
+const getPermissions = async (id) => {
+    try {
+        updatedPermissions.data = {};
+        await axios.get('/admin/role/' + id + '/permissions').
+            then(res => {
+                updatedPermissions.data = res.data[0];
+            })
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 </script>
@@ -66,6 +82,7 @@ const updateAdmin = id => {
                                             <InputLabel value="Team" />
                                             <div class="relative">
                                                 <select id="team" name="team" v-model="form.roleId"
+                                                    @change="getPermissions(form.roleId)"
                                                     class="w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                                     <option v-for="selectRole in props.selectRoles" :key="selectRole.id"
                                                         :value="selectRole.id">
@@ -77,14 +94,31 @@ const updateAdmin = id => {
                                         <div class="p-2">
                                             <InputLabel value="Permission" />
                                             <div
-                                                class="relative w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                                <div class="ml-6">
+                                                class="flex w-full bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                                <div class="ml-6 w-1/3">
                                                     <ul>
-                                                        <!-- //TODO: プルダウンを変更したら権限の表示も変えたい -->
                                                         <li type="disc" v-for="permission in props.permissions">
                                                             {{ permission }}
                                                         </li>
                                                     </ul>
+                                                </div>
+                                                <div class="flex w-1/2 text-red-500"
+                                                    v-if="props.role.id !== form.roleId && updatedPermissions.data && updatedPermissions.data.length > 0">
+                                                    <div class="mr-6 self-center">
+                                                        <svg fill="none" stroke="currentColor" stroke-linecap="round"
+                                                            stroke-linejoin="round" stroke-width="2"
+                                                            class="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                                                            <path d="M5 12h14M12 5l7 7-7 7"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="ml-6">
+                                                        <ul>
+                                                            <li type="disc"
+                                                                v-for="permission in updatedPermissions.data">
+                                                                {{ permission }}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
