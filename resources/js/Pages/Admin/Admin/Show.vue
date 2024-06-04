@@ -132,8 +132,9 @@ const getPermissions = async (id) => {
                                                 </PrimaryButton>
                                                 </Link>
                                             </div>
-                                            <button
-                                                class="flex ml-2 items-center uppercase font-semibold text-xs text-white bg-indigo-500 border-0 py-1 px-5 focus:outline-none hover:bg-indigo-600 rounded">Save</button>
+                                            <button v-if="can('system')"
+                                                class="flex ml-2 items-center uppercase font-semibold text-xs text-white bg-indigo-500 border-0 py-1 px-5 focus:outline-none hover:bg-indigo-600 rounded">
+                                                Save</button>
                                         </div>
                                     </div>
                                 </div>
